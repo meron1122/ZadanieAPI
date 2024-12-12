@@ -1,0 +1,31 @@
+﻿version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-create-db.sql:/docker-entrypoint-initdb.d/init-create-db.sql
+      - ./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__PostgresConnection=Host=db;Database=employeedb;Username=postgres;Password=postgres
+      - User__Username=admin
+      - User__Password=password123
+    ports:
+      - "10310:5000"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
