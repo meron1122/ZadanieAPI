@@ -69,7 +69,7 @@ namespace UnitTests.IntegrationTests
             var employeeContent = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
 
             var credentials = Encoding.ASCII.GetBytes("admin:password123");
-            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
 
             var addEmployeeResponse = await _client.PostAsync("/api/Employee", employeeContent);
             Assert.Equal(HttpStatusCode.Created, addEmployeeResponse.StatusCode);
