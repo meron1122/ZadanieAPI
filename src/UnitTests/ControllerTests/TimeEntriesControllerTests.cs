@@ -50,7 +50,10 @@ namespace UnitTests
             var result = await _controller.AddTimeEntry(1, timeEntry);
 
             var conflictResult = Assert.IsType<ConflictObjectResult>(result);
-            Assert.Equal("Time entry for the specified date already exists.", conflictResult.Value);
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(conflictResult.Value);
+            var errorObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
+            Assert.Equal("Time entry for the specified date already exists.", (string)errorObject.error);
         }
 
         [Fact]
@@ -74,8 +77,10 @@ namespace UnitTests
 
             var result = await _controller.AddTimeEntry(1, timeEntry);
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            var errorMessage = Assert.IsType<string>(badRequestResult.Value); 
-            Assert.Equal("Hours worked must be between 1 and 24.", errorMessage);
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(badRequestResult.Value);
+            var errorObject = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(json);
+            Assert.Equal("Hours worked must be between 1 and 24.", (string)errorObject.error);
         }
 
     }
