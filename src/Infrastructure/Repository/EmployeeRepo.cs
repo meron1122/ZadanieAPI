@@ -1,7 +1,5 @@
 ﻿using Core.Interfaces;
 using Core.Models;
-using Dapper;
-using Npgsql;
 using System.Text.RegularExpressions;
 
 namespace Infrastructure.Repository
