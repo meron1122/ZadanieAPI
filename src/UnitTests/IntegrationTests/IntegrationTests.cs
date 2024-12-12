@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests.RepoTests
+namespace UnitTests.IntegrationTests
 {
     public class IntegrationTests
     {
